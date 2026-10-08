@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unifest – Celebrate, Compete, Connect</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =====================================================
+       PART 1: LANDING PAGE (first thing visitors see)
+       ===================================================== -->
+  <section id="landing">
+
+    <!-- floating emojis in the background -->
+    <div class="floaters">
+      <span style="--x:5%;  --d:0s;  --s:2.4rem">🎉</span>
+      <span style="--x:15%; --d:3s;  --s:2rem">🏆</span>
+      <span style="--x:25%; --d:6s;  --s:2.8rem">🎸</span>
+      <span style="--x:35%; --d:1s;  --s:2.2rem">💻</span>
+      <span style="--x:45%; --d:8s;  --s:2.6rem">🎤</span>
+      <span style="--x:55%; --d:4s;  --s:2rem">⚽</span>
+      <span style="--x:65%; --d:7s;  --s:2.8rem">🎨</span>
+      <span style="--x:75%; --d:2s;  --s:2.2rem">🚀</span>
+      <span style="--x:85%; --d:5s;  --s:2.6rem">🎶</span>
+      <span style="--x:92%; --d:9s;  --s:2.2rem">⭐</span>
+      <span style="--x:10%; --d:10s; --s:2rem">🔥</span>
+      <span style="--x:50%; --d:11s; --s:2.4rem">🤝</span>
+      <span style="--x:70%; --d:12s; --s:2rem">💃</span>
+      <span style="--x:30%; --d:13s; --s:2.4rem">🎯</span>
+    </div>
+
+    <div class="landing-content">
+      <p class="small-line">✨ The ultimate college fest hub ✨</p>
+      <h1 class="big-title">UNIFEST</h1>
+      <h2 class="tagline">
+        <span class="t1">🎉 Celebrate</span>
+        <span class="dot">•</span>
+        <span class="t2">🏆 Compete</span>
+        <span class="dot">•</span>
+        <span class="t3">🤝 Connect</span>
+      </h2>
+      <p class="sub">Register for events, track your tickets and never miss an update – all in one place.</p>
+      <button class="enter-btn" onclick="enterSite()">🚀 Enter the Fest</button>
+
+      <div class="feature-row">
+        <div class="feature">📝<b>Easy Registration</b><span>No paper forms</span></div>
+        <div class="feature">📅<b>Smart Scheduling</b><span>No clashes</span></div>
+        <div class="feature">📢<b>Live Updates</b><span>Instant announcements</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       PART 2: MAIN WEBSITE (shown after clicking Enter)
+       ===================================================== -->
+  <div id="app" class="hidden">
+
+    <!-- Top navigation bar -->
+    <header class="topbar">
+      <div class="brand" onclick="showPage('events')">🎪 <b>UNIFEST</b></div>
+      <nav>
+        <button class="nav-btn active" data-page="events" onclick="showPage('events')">🎟️ Events</button>
+        <button class="nav-btn" data-page="my" onclick="showPage('my')">🧾 My Registrations</button>
+        <button class="nav-btn" data-page="news" onclick="showPage('news')">📢 Announcements</button>
+        <button class="nav-btn" data-page="help" onclick="showPage('help')">🙋 Help Desk</button>
+        <button class="nav-btn" data-page="admin" onclick="showPage('admin')">🛠️ Admin</button>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- ---------- PAGE: EVENTS ---------- -->
+      <section id="page-events" class="page active">
+        <div class="stats" id="stats"></div>
+
+        <div class="filters">
+          <input type="text" id="searchBox" placeholder="🔍 Search events..." oninput="showEvents()" />
+          <select id="categoryBox" onchange="showEvents()">
+            <option value="all">All categories</option>
+            <option>Technical</option>
+            <option>Cultural</option>
+            <option>Sports</option>
+            <option>Workshop</option>
+            <option>Seminar</option>
+          </select>
+        </div>
+
+        <div id="eventList" class="grid"></div>
+      </section>
+
+      <!-- ---------- PAGE: MY REGISTRATIONS ---------- -->
+      <section id="page-my" class="page">
+        <h2 class="page-title">🧾 My Registrations</h2>
+        <form class="box" onsubmit="lookupTickets(); return false;">
+          <label>Enter the email you registered with</label>
+          <div class="row">
+            <input type="email" id="lookupEmail" placeholder="you@example.com" required />
+            <button type="submit" class="btn">Show my tickets</button>
+          </div>
+        </form>
+        <div id="myList"></div>
+      </section>
+
+      <!-- ---------- PAGE: ANNOUNCEMENTS ---------- -->
+      <section id="page-news" class="page">
+        <h2 class="page-title">📢 Announcements</h2>
+        <!-- Prize money for every competition (filled by showPrizes() in app.js) -->
+        <h3 class="page-title small">💰 Prize Money</h3>
+        <div id="prizeList"></div>
+
+        <h3 class="page-title small">📣 Latest updates</h3>
+        <div id="newsList"></div>
+      </section>
+
+      <!-- ---------- PAGE: HELP DESK ---------- -->
+      <section id="page-help" class="page">
+        <h2 class="page-title">🙋 Help Desk</h2>
+
+        <div class="two-col">
+
+          <!-- left: FAQs + contact -->
+          <div>
+            <h3 class="page-title small" style="margin-top:0">❓ Frequently asked questions</h3>
+            <div id="faqList"></div>
+
+            <div class="box contact-box">
+              <h3>📞 Need urgent help?</h3>
+              <p>📧 helpdesk@yourcollege.edu</p>
+              <p>📱 Add your helpline number here</p>
+              <p>📍 Help Desk counter, Main Block (9 AM – 5 PM)</p>
+            </div>
+          </div>
+
+          <!-- right: ask a question -->
+          <form class="box" onsubmit="askQuestion(); return false;">
+            <h3>💬 Ask us anything</h3>
+            <label>Your name</label>
+            <input type="text" id="qName" placeholder="Your name" required />
+            <label>Email (we show the reply against this email)</label>
+            <input type="email" id="qEmail" placeholder="you@example.com" required />
+            <label>Topic</label>
+            <select id="qTopic">
+              <option>Registration</option>
+              <option>Schedule / Timings</option>
+              <option>Prizes</option>
+              <option>Venue</option>
+              <option>Rules of an event</option>
+              <option>Other</option>
+            </select>
+            <label>Your question</label>
+            <textarea id="qText" rows="4" placeholder="Type your doubt here..." required></textarea>
+            <button type="submit" class="btn full">📨 Send question</button>
+          </form>
+        </div>
+
+        <h3 class="page-title small">📨 My questions &amp; answers</h3>
+        <form class="box" onsubmit="checkMyQueries(); return false;">
+          <label>Enter your email to see replies to your questions</label>
+          <div class="row">
+            <input type="email" id="qLookupEmail" placeholder="you@example.com" required />
+            <button type="submit" class="btn">Check replies</button>
+          </div>
+        </form>
+        <div id="myQueries"></div>
+      </section>
+
+      <!-- ---------- PAGE: ADMIN ---------- -->
+      <section id="page-admin" class="page">
+        <h2 class="page-title">🛠️ Organizer Dashboard</h2>
+
+        <!-- login box -->
+        <div id="adminLogin" class="box">
+          <label>Organizer password</label>
+          <div class="row">
+            <input type="password" id="adminPass" placeholder="Enter password" />
+            <button class="btn" onclick="adminLogin()">Login</button>
+          </div>
+          <small>Demo password: <b>admin123</b></small>
+        </div>
+
+        <!-- panel shown after login -->
+        <div id="adminPanel" class="hidden">
+          <div class="two-col">
+
+            <!-- add event form -->
+            <form class="box" onsubmit="addEvent(); return false;">
+              <h3>➕ Create new event</h3>
+              <label>Title</label>
+              <input type="text" id="newTitle" required />
+              <label>Category</label>
+              <select id="newCategory">
+                <option>Technical</option><option>Cultural</option><option>Sports</option>
+                <option>Workshop</option><option>Seminar</option>
+              </select>
+              <label>Date</label>
+              <input type="date" id="newDate" required />
+              <div class="row">
+                <div><label>Start time</label><input type="time" id="newStart" required /></div>
+                <div><label>End time</label><input type="time" id="newEnd" required /></div>
+              </div>
+              <label>Venue</label>
+              <input type="text" id="newVenue" required />
+              <label>Total seats</label>
+              <input type="number" id="newSeats" value="50" min="1" required />
+              <label>Description</label>
+              <textarea id="newDesc" rows="3" required></textarea>
+              <button type="submit" class="btn full">Publish event</button>
+            </form>
+
+            <!-- post announcement form -->
+            <form class="box" onsubmit="postAnnouncement(); return false;">
+              <h3>📣 Send announcement</h3>
+              <label>For which event?</label>
+              <select id="annEvent"></select>
+              <label>Title</label>
+              <input type="text" id="annTitle" required />
+              <label>Message</label>
+              <textarea id="annMessage" rows="4" required></textarea>
+              <button type="submit" class="btn full">Post announcement</button>
+            </form>
+          </div>
+
+          <h3 class="page-title small">📋 Events &amp; who registered</h3>
+          <div id="adminEvents"></div>
+
+          <!-- help desk questions from students (filled by showAdminQueries() in app.js) -->
+          <div id="adminQueries"></div>
+
+          <button class="btn outline" onclick="logout()">Logout</button>
+          <button class="btn outline red" onclick="resetData()">Reset demo data</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- =====================================================
+       PART 3: POP-UP WINDOW (registration form) + MESSAGE
+       ===================================================== -->
+  <div id="modal" class="overlay hidden" onclick="closeModal(event)">
+    <div class="modal">
+      <button class="close" onclick="closeModal()">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
